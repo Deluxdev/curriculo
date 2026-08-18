@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-bs-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,6 +37,11 @@
           <li class="nav-item"><a class="nav-link" href="#projetos">Projetos</a></li>
           <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
           <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+          <li class="nav-item ms-lg-3">
+            <button class="btn btn-outline-light btn-sm mt-2 mt-lg-0" id="btnTema" type="button">
+              <i class="bi bi-moon-stars-fill"></i> <span id="textoTema">Modo noturno</span>
+            </button>
+          </li>
         </ul>
       </div>
     </div>
@@ -47,7 +52,7 @@
     <div class="container">
       <div class="row align-items-center g-4">
         <div class="col-lg-8">
-          <p class="text-uppercase fw-semibold mb-2 opacity-75">Currículo profissional</p>
+          <p class="text-uppercase fw-semibold mb-2 opacity-75" id="saudacao">Currículo profissional</p>
           <h1 class="display-4 fw-bold">Erick Barros</h1>
           <p class="lead mb-4">
             Estudante de Engenharia de Software na UniRV e analista de suporte técnico.
@@ -64,10 +69,10 @@
           </a>
         </div>
         <div class="col-lg-4 text-center">
-          <div class="bg-white text-primary rounded-circle d-inline-flex align-items-center justify-content-center"
-               style="width: 190px; height: 190px;">
-            <span class="display-1 fw-bold">EB</span>
-          </div>
+          <img src="https://avatars.githubusercontent.com/u/126489791?s=400&amp;u=e79d149f4f49031d25ab76da5c99130453c883b3&amp;v=4"
+               alt="Foto de perfil de Erick Barros"
+               class="img-fluid rounded-circle border border-4 border-white shadow"
+               style="width: 200px; height: 200px; object-fit: cover;">
         </div>
       </div>
     </div>
@@ -107,7 +112,7 @@
     </section>
 
     <!-- FORMAÇÃO -->
-    <section id="formacao" class="bg-light py-5">
+    <section id="formacao" class="bg-body-secondary py-5">
       <div class="container">
         <h2 class="fw-bold mb-4">Formação acadêmica</h2>
         <div class="row g-4">
@@ -140,7 +145,10 @@
                 <span class="badge text-bg-success">Atual</span>
               </div>
               <h4 class="h6 text-muted mb-3">Nectar - Sistemas de gestão</h4>
-              <ul class="mb-0">
+              <button class="btn btn-outline-primary btn-sm mb-3" id="btnDetalhes" type="button">
+                Ocultar detalhes
+              </button>
+              <ul class="mb-0" id="detalhesExperiencia">
                 <li>Administração e troubleshooting de bancos de dados <strong>SQL Server</strong> (conexões TCP/Named Pipes, usuários órfãos, gerenciamento de sessões).</li>
                 <li>Suporte aos sistemas NectarSys6 e Nimbus ERP, incluindo análise de erros de runtime e correção de inconsistências de notas fiscais eletrônicas (NF-e).</li>
                 <li>Atendimento direto a clientes, com registro e documentação de incidentes em sistema de chamados.</li>
@@ -153,7 +161,7 @@
     </section>
 
     <!-- PROJETOS -->
-    <section id="projetos" class="bg-light py-5">
+    <section id="projetos" class="bg-body-secondary py-5">
       <div class="container">
         <h2 class="fw-bold mb-2">Projetos</h2>
         <p class="text-muted mb-4">Projetos acadêmicos e pessoais publicados no meu GitHub.</p>
@@ -171,7 +179,7 @@
                 <span class="badge text-bg-info">Flutter</span>
                 <span class="badge text-bg-info">Node.js</span>
               </div>
-              <div class="card-footer bg-white border-0">
+              <div class="card-footer bg-transparent border-0">
                 <a href="https://github.com/Deluxdev" target="_blank" rel="noopener" class="btn btn-primary btn-sm w-100">Ver no GitHub</a>
               </div>
             </div>
@@ -283,6 +291,50 @@
 
   <!-- Bootstrap JS (necessário para o menu responsivo) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ===== INTERATIVIDADE (JavaScript) ===== -->
+  <script>
+    // 1) Saudação dinâmica conforme o horário do visitante
+    const saudacao = document.getElementById("saudacao");
+    const hora = new Date().getHours();
+    let mensagem = "Boa noite";
+    if (hora >= 5 && hora < 12) {
+      mensagem = "Bom dia";
+    } else if (hora >= 12 && hora < 18) {
+      mensagem = "Boa tarde";
+    }
+    saudacao.textContent = mensagem + ", seja bem-vindo ao meu currículo";
+
+    // 2) Modo noturno
+    const btnTema = document.getElementById("btnTema");
+    const textoTema = document.getElementById("textoTema");
+    const iconeTema = btnTema.querySelector("i");
+
+    btnTema.addEventListener("click", function () {
+      const temaAtual = document.documentElement.getAttribute("data-bs-theme");
+      const novoTema = temaAtual === "dark" ? "light" : "dark";
+
+      document.documentElement.setAttribute("data-bs-theme", novoTema);
+
+      if (novoTema === "dark") {
+        textoTema.textContent = "Modo claro";
+        iconeTema.className = "bi bi-sun-fill";
+      } else {
+        textoTema.textContent = "Modo noturno";
+        iconeTema.className = "bi bi-moon-stars-fill";
+      }
+    });
+
+    // 3) Mostrar/ocultar os detalhes da experiência profissional
+    const btnDetalhes = document.getElementById("btnDetalhes");
+    const detalhes = document.getElementById("detalhesExperiencia");
+
+    btnDetalhes.addEventListener("click", function () {
+      const estaVisivel = detalhes.style.display !== "none";
+      detalhes.style.display = estaVisivel ? "none" : "block";
+      btnDetalhes.textContent = estaVisivel ? "Mostrar detalhes" : "Ocultar detalhes";
+    });
+  </script>
 
 </body>
 </html>
